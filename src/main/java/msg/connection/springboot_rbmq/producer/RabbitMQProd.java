@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class RabbitMQProd {
 
-    @Value("rabbitmq.exchange.name")
+    @Value("${rabbitmq.exchange.name}")
     private String exchangeName;
 
-    @Value("rabbitmq.routing.key")
+    @Value("${rabbitmq.routing.key}")
     private String keys;
 
     private static final Logger logger = LoggerFactory.getLogger(RabbitMQProd.class);
@@ -22,7 +22,7 @@ public class RabbitMQProd {
     private RabbitTemplate rabbitTemplate;
 
     public void sendMessage(String message){
-        logger.info("Message Sent ->> {}", message);
+        logger.info(String.format("Message Sent ->> %s", message));
         rabbitTemplate.convertAndSend(exchangeName, keys, message);
     }
 }
