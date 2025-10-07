@@ -1,12 +1,10 @@
 package msg.connection.springboot_rbmq.controller;
 
+import msg.connection.springboot_rbmq.dto.User;
 import msg.connection.springboot_rbmq.producer.RabbitMQProd;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/send")
@@ -20,4 +18,11 @@ public class MessageController {
         rabbitMQProducer.sendMessage(message);
         return ResponseEntity.ok("Message Transferred Successfully");
     }
+
+    @PostMapping("/publish")
+    public ResponseEntity<String> sendJsonMessage(@RequestBody User user){
+        rabbitMQProducer.sendJsonMessage(user);
+        return ResponseEntity.ok("User Data sent successfully");
+    }
+
 }
