@@ -1,5 +1,6 @@
 package msg.connection.springboot_rbmq.consumer;
 
+import msg.connection.springboot_rbmq.dto.User;
 import msg.connection.springboot_rbmq.producer.RabbitMQProd;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,9 @@ public class RabbitMQCons {
     @Value("${rabbitmq.routing.key}")
     private String keys;
 
+    @Value("${rabbitmq.routing.jsonkey}")
+    private String key1;
+
     private static final Logger logger = LoggerFactory.getLogger(RabbitMQCons.class);
 
     @Autowired
@@ -23,7 +27,11 @@ public class RabbitMQCons {
     @RabbitListener(queues = "${rabbitmq.queue.name}")
     public void consume(String message){
         logger.info(String.format("Received Message ->> %s", message));
+    }
 
+    @RabbitListener(queues = "${rabbitmq.jsonqueue.name}")
+    public void jsonConsume(User user){
+        logger.info(String.format("Received Message ->> %s", user.toString()));
     }
 
 }
